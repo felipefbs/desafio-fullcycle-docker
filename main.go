@@ -1,5 +1,5 @@
 package main
 
 func main() {
-	print("Full Cycle Rocks!!")
+	print("Full Cycle Rocks!!\n")
 }

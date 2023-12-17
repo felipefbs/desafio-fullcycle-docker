@@ -6,4 +6,4 @@ RUN go build -o ./app .
 FROM scratch
 WORKDIR /app
 COPY --from=builder /app .
-CMD [ "app" ]
+CMD [ "./app" ]
