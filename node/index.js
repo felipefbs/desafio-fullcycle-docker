@@ -4,22 +4,32 @@ const mysql = require("mysql2/promise");
 const app = express();
 const port = 3000;
 
-app.get("/", async (req, res) => {
-  response = "<h1>Full Cycle Rocks!</h1>";
+async function main() {
+  const connection = await getDbConnection();
 
-  names = await getNames();
-  for (let i = 0; i < names.length; i++) {
-    response += names[i];
-  }
+  app.get("/", async (req, res) => {
+    response = "<h1>Full Cycle Rocks!</h1>";
 
-  res.send(response);
-});
+    names = await getNames(connection);
+    for (let i = 0; i < names.length; i++) {
+      response += names[i];
+    }
 
-app.listen(port, () => {
-  console.log(`Listening on port ${port}`);
-});
+    res.send(response);
+  });
 
-async function getNames() {
+  app.listen(port, () => {
+    console.log(`Listening on port ${port}`);
+  });
+}
+
+async function getNames(db) {
+  const [rows] = await db.execute("SELECT name FROM `people`");
+
+  return rows.map((r) => `<p> - ${r.name} </p>`);
+}
+
+async function getDbConnection() {
   const connection = await mysql.createConnection({
     host: "sql",
     port: 3306,
@@ -28,7 +38,15 @@ async function getNames() {
     database: "database",
   });
 
-  const [rows] = await connection.execute("SELECT name FROM `people`");
+  connection.execute(
+    "CREATE TABLE IF NOT EXISTS people(id int auto_increment not null, name varchar(255), primary key(id))"
+  );
 
-  return rows.map((r) => `<p> - ${r.name} </p>`);
+  connection.execute(
+    'INSERT INTO people(name) values ("felipe"), ("henrique"), ("mayara"), ("wesley") '
+  );
+
+  return connection;
 }
+
+main();
