@@ -1,0 +1,35 @@
+version: "3"
+
+services:
+  node:
+    build:
+      dockerfile: Dockerfile
+    image: felipeffbs/fullcycle-node:latest
+    entrypoint: dockerize -wait tcp://sql:3306 -timeout 15s node index.js
+    container_name: fullcycle-node
+    tty: true
+    networks:
+      - challenge
+    ports:
+      - 3000:3000
+    depends_on:
+      - sql
+
+  sql:
+    image: mysql:5.7
+    command: --innodb-use-native-aio=0
+    restart: always
+    container_name: sql
+    volumes:
+      - ./mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=safe_pwd
+      - MYSQL_DATABASE=database
+    networks:
+      - challenge
+    ports:
+      - 3306:3306
+
+networks:
+  challenge:
+    driver: bridge
