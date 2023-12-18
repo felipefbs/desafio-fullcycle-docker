@@ -1,0 +1,23 @@
+{
+  "name": "desafio-fullcycle-docker",
+  "version": "1.0.0",
+  "description": "# Go Para rodar a imagem docker baixando direto do [dockerhub](https://hub.docker.com/r/felipeffbs/fullcycle) basta rodar o comando ```bash docker run felipeffbs/fullcycle ```",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/felipefbs/desafio-fullcycle-docker.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/felipefbs/desafio-fullcycle-docker/issues"
+  },
+  "homepage": "https://github.com/felipefbs/desafio-fullcycle-docker#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mysql2": "^3.6.5"
+  }
+}
