@@ -30,6 +30,15 @@ services:
     ports:
       - 3306:3306
 
+  nginx:
+    restart: always
+    build:
+      context: ./nginx
+    networks:
+      - challenge
+    ports:
+      - 8080:80
+
 networks:
   challenge:
     driver: bridge
